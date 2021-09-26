@@ -20,3 +20,23 @@ const getTask = async () => {
     });
     return tasks;
 };
+
+async function taskById(task_id) {
+    const oneTask = await db('tasks').where('task_id', task_id).first();
+    return {
+        task_id: oneTask.task_id,   
+        task_notes: taskOne.task_notes,
+        task_description: taskOne.task_description,
+        task_completed: taskOne.task_completed === 0 ? false : true,
+    };
+}
+
+const createTask = async (task) => {
+    const [task_id] = await db('tasks').insert(task);
+    return taskById(task_id);
+};
+
+module.exports = {
+    getTask,
+    createTask
+};
